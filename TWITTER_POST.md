@@ -2,8 +2,8 @@
 
 ## 1. X 主页 Bio 挂法（直接二选一）
 
-- **中文版**：`维护 Antigravity (AGY) 精选插件市场 👉 <你的网站链接> | 上下文看板 / 皮肤 / 汉化 / ACP`
-- **英文版**：`Curated Antigravity (AGY) Plugin Store 👉 <你的网站链接> | Context, Themes, i18n, ACP`
+- **中文版**：`维护 Antigravity (AGY) 精选插件市场 👉 https://wycocoyu.github.io/antigravity-plugin-market/ | 上下文看板 / 皮肤 / 汉化 / ACP`
+- **英文版**：`Curated Antigravity (AGY) Plugin Store 👉 https://wycocoyu.github.io/antigravity-plugin-market/ | Context, Themes, i18n, ACP`
 
 ## 2. 置顶推文（建议配 1 张市场首页截图）
 
@@ -16,5 +16,5 @@
 5️⃣ **侧边栏 & 效率**：`agy-project-sidebar`（项目会话树）、`Antigravity-Manager`
 
 所有插件都标了真实 Star 数和一键安装命令，支持搜关键词和投稿收录 👇
-🔗 <你的网站链接>
-📦 开源仓库：<你的 GitHub 仓库链接>
+🔗 https://wycocoyu.github.io/antigravity-plugin-market/
+📦 开源仓库：https://github.com/wycocoyu/antigravity-plugin-market
