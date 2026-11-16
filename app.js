@@ -207,6 +207,9 @@ function getFilteredPlugins() {
 
   list.sort((a, b) => {
     if (state.sort === "featured") {
+      const aStaff = a.badge === "站长精选" || a.badgeEn === "Staff Pick";
+      const bStaff = b.badge === "站长精选" || b.badgeEn === "Staff Pick";
+      if (aStaff !== bStaff) return aStaff ? -1 : 1;
       if (Boolean(a.featured) !== Boolean(b.featured)) return a.featured ? -1 : 1;
       return b.stars - a.stars;
     }
