@@ -9,63 +9,92 @@ const state = {
 const I18N = {
   zh: {
     siteTitle: "Antigravity Store",
-    siteSub: "反重力第三方精选插件市场",
     submitPlugin: "+ 投稿插件",
     heroPill: "专为 Antigravity 桌面端与 CLI 收录",
-    heroTitle: "一站发现好用的反重力插件",
+    heroTitle: "发现并安装好用的反重力插件",
     heroDesc:
-      "收录社区高频使用的上下文监控、暖色皮肤、中文汉化、ACP 协议桥接与效率增强插件，全部附带真实 Star 数与一键安装指令。",
-    sortLabel: "排序：",
-    sortFeatured: "站长精选优先",
-    sortStars: "Star 数最高",
+      "收录社区高频使用的上下文看板、暖色皮肤、中文汉化、ACP 协议桥接与效率侧边栏插件，附带真实 GitHub Star 与一键安装指令。",
+    spotlightTitle: "站长精选 · Editors' Spotlight",
+    spotlightSub: "装机必看核心插件",
+    sortFeatured: "精选优先",
+    sortStars: "Star 最高",
     sortName: "名称 A-Z",
+    copyShort: "复制",
     copyCmd: "复制安装命令",
-    viewRepo: "查看仓库",
+    viewRepo: "GitHub 仓库",
     copied: "已复制安装命令",
     searchPlaceholder: "搜索插件、皮肤、汉化、ACP、上下文...",
-    pluginsCount: "个插件",
-    categoriesCount: "个分类",
-    resultsText: (n) => `共找到 ${n} 个精选插件`,
+    resultsText: (n) => `${n} 个插件`,
     emptyText: "没有匹配的插件，试试换个关键词或分类。",
-    footerNote: (date) => `数据最后核验：${date} · 由社区与站长共同维护`,
+    footerNote: (date) => `数据核验：${date} · Antigravity 社区精选目录`,
     installTitle: "安装命令",
     mechanismLabel: "实现机制",
     authorLabel: "作者",
+    statsHtml: (total, cats, totalStars) =>
+      `<span><strong>${total}</strong> 插件</span><span><strong>${cats}</strong> 分类</span><span><strong>${totalStars}</strong> 总 Stars</span>`,
   },
   en: {
     siteTitle: "Antigravity Store",
-    siteSub: "Curated Antigravity Plugin Market",
-    submitPlugin: "+ Submit Plugin",
+    submitPlugin: "+ Submit",
     heroPill: "Curated for Antigravity Desktop & CLI",
     heroTitle: "Discover Essential Antigravity Plugins",
     heroDesc:
       "Community-curated context dashboards, custom themes, localization packs, ACP bridges & sidebar tools with real GitHub stars and one-click install commands.",
-    sortLabel: "Sort:",
-    sortFeatured: "Staff Picks First",
+    spotlightTitle: "Editors' Spotlight",
+    spotlightSub: "Essential picks for your setup",
+    sortFeatured: "Featured First",
     sortStars: "Most Stars",
     sortName: "Name A-Z",
-    copyCmd: "Copy Install",
-    viewRepo: "GitHub",
+    copyShort: "Copy",
+    copyCmd: "Copy Install Command",
+    viewRepo: "Open on GitHub",
     copied: "Install command copied",
     searchPlaceholder: "Search plugins, themes, i18n, ACP, context...",
-    pluginsCount: "Plugins",
-    categoriesCount: "Categories",
-    resultsText: (n) => `${n} curated plugins`,
-    emptyText: "No matching plugins found. Try another keyword or category.",
-    footerNote: (date) => `Last verified: ${date} · Curated for the Antigravity community`,
+    resultsText: (n) => `${n} plugins`,
+    emptyText: "No matching plugins found.",
+    footerNote: (date) => `Last verified: ${date} · Curated Antigravity Directory`,
     installTitle: "Install Command",
     mechanismLabel: "Mechanism",
     authorLabel: "Author",
+    statsHtml: (total, cats, totalStars) =>
+      `<span><strong>${total}</strong> plugins</span><span><strong>${cats}</strong> categories</span><span><strong>${totalStars}</strong> total stars</span>`,
   },
 };
 
-const CATEGORY_COLORS = {
-  context: "linear-gradient(135deg, #1a73e8, #4285f4)",
-  theme: "linear-gradient(135deg, #e37400, #fbbc04)",
-  i18n: "linear-gradient(135deg, #d93025, #f28b82)",
-  acp: "linear-gradient(135deg, #9334e6, #c58af9)",
-  workflow: "linear-gradient(135deg, #137333, #34a853)",
+const CATEGORY_VISUALS = {
+  context: {
+    bg: "linear-gradient(135deg, rgba(56,189,248,0.22), rgba(59,130,246,0.14))",
+    color: "#38bdf8",
+    svg: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>`,
+  },
+  theme: {
+    bg: "linear-gradient(135deg, rgba(251,146,60,0.22), rgba(244,63,94,0.14))",
+    color: "#fb923c",
+    svg: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>`,
+  },
+  i18n: {
+    bg: "linear-gradient(135deg, rgba(244,63,94,0.22), rgba(236,72,153,0.14))",
+    color: "#fb7185",
+    svg: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg>`,
+  },
+  acp: {
+    bg: "linear-gradient(135deg, rgba(168,85,247,0.22), rgba(99,102,241,0.14))",
+    color: "#c084fc",
+    svg: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/></svg>`,
+  },
+  workflow: {
+    bg: "linear-gradient(135deg, rgba(52,211,153,0.22), rgba(16,185,129,0.14))",
+    color: "#34d399",
+    svg: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/></svg>`,
+  },
 };
+
+const SPOTLIGHT_IDS = [
+  "agy-project-sidebar",
+  "agy-context-dashboard",
+  "antigravity-panel",
+  "chuanban-antigravity-theme-patch",
+];
 
 const formatStars = (n) => (n >= 1000 ? `${(n / 1000).toFixed(1)}k` : String(n));
 
@@ -76,7 +105,7 @@ function showToast(msg) {
   clearTimeout(showToast._t);
   showToast._t = setTimeout(() => {
     el.hidden = true;
-  }, 1800);
+  }, 1600);
 }
 
 async function copyText(text) {
@@ -88,35 +117,11 @@ async function copyText(text) {
   }
 }
 
-function getFilteredPlugins() {
-  if (!state.data) return [];
-  const q = state.query.trim().toLowerCase();
-  const list = state.data.plugins.filter((p) => {
-    if (state.category !== "all" && p.category !== state.category) return false;
-    if (!q) return true;
-    const hay = [
-      p.name,
-      p.repo,
-      p.author,
-      p.mechanism,
-      p.summary,
-      p.summaryEn,
-      ...(p.tags || []),
-    ]
-      .join(" ")
-      .toLowerCase();
-    return hay.includes(q);
-  });
-
-  list.sort((a, b) => {
-    if (state.sort === "featured") {
-      if (Boolean(a.featured) !== Boolean(b.featured)) return a.featured ? -1 : 1;
-      return b.stars - a.stars;
-    }
-    if (state.sort === "stars") return b.stars - a.stars;
-    return a.name.localeCompare(b.name);
-  });
-  return list;
+function badgeClass(badge) {
+  if (!badge) return "";
+  if (badge.includes("站长") || badge.includes("Staff")) return "badge-staff";
+  if (badge.includes("风险") || badge.includes("ToS")) return "badge-warn";
+  return "badge-default";
 }
 
 function renderI18n() {
@@ -136,10 +141,39 @@ function renderStats() {
   const t = I18N[state.lang];
   const total = state.data.plugins.length;
   const cats = state.data.categories.length - 1;
-  document.getElementById("heroStats").innerHTML = `
-    <div class="stat-box"><span class="stat-num">${total}</span><span class="stat-label">${t.pluginsCount}</span></div>
-    <div class="stat-box"><span class="stat-num">${cats}</span><span class="stat-label">${t.categoriesCount}</span></div>
-  `;
+  const sumStars = state.data.plugins.reduce((acc, p) => acc + p.stars, 0);
+  document.getElementById("heroStats").innerHTML = t.statsHtml(total, cats, formatStars(sumStars));
+}
+
+function renderSpotlight() {
+  const container = document.getElementById("spotlightGrid");
+  const picks = SPOTLIGHT_IDS.map((id) => state.data.plugins.find((p) => p.id === id)).filter(Boolean);
+  container.innerHTML = picks
+    .map((p) => {
+      const vis = CATEGORY_VISUALS[p.category] || CATEGORY_VISUALS.workflow;
+      const badge = state.lang === "zh" ? p.badge : p.badgeEn;
+      const summary = state.lang === "zh" ? p.summary : p.summaryEn;
+      return `
+        <article class="spot-card" data-id="${p.id}">
+          <div class="card-head">
+            <div class="card-icon" style="background:${vis.bg};color:${vis.color}">${vis.svg}</div>
+            <div class="card-title-wrap">
+              <h3 class="card-title" title="${p.name}">${p.name}</h3>
+              <div class="card-repo">${p.repo}</div>
+            </div>
+          </div>
+          <p class="card-desc">${summary}</p>
+          <div class="card-foot">
+            <div class="card-badges">
+              ${badge ? `<span class="badge ${badgeClass(badge)}">${badge}</span>` : ""}
+              <span class="star-pill">★ ${formatStars(p.stars)}</span>
+            </div>
+            <button class="mini-btn" type="button" data-copy="${p.id}">${I18N[state.lang].copyShort}</button>
+          </div>
+        </article>
+      `;
+    })
+    .join("");
 }
 
 function renderCategories() {
@@ -160,11 +194,26 @@ function renderCategories() {
     .join("");
 }
 
-function badgeClass(badge) {
-  if (!badge) return "";
-  if (badge.includes("站长") || badge.includes("Staff")) return "badge-staff";
-  if (badge.includes("风险") || badge.includes("ToS")) return "badge-warn";
-  return "badge-default";
+function getFilteredPlugins() {
+  const q = state.query.trim().toLowerCase();
+  const list = state.data.plugins.filter((p) => {
+    if (state.category !== "all" && p.category !== state.category) return false;
+    if (!q) return true;
+    const hay = [p.name, p.repo, p.author, p.mechanism, p.summary, p.summaryEn, ...(p.tags || [])]
+      .join(" ")
+      .toLowerCase();
+    return hay.includes(q);
+  });
+
+  list.sort((a, b) => {
+    if (state.sort === "featured") {
+      if (Boolean(a.featured) !== Boolean(b.featured)) return a.featured ? -1 : 1;
+      return b.stars - a.stars;
+    }
+    if (state.sort === "stars") return b.stars - a.stars;
+    return a.name.localeCompare(b.name);
+  });
+  return list;
 }
 
 function renderGrid() {
@@ -180,31 +229,29 @@ function renderGrid() {
 
   grid.innerHTML = list
     .map((p) => {
+      const vis = CATEGORY_VISUALS[p.category] || CATEGORY_VISUALS.workflow;
       const badge = state.lang === "zh" ? p.badge : p.badgeEn;
       const summary = state.lang === "zh" ? p.summary : p.summaryEn;
-      const iconBg = CATEGORY_COLORS[p.category] || CATEGORY_COLORS.workflow;
-      const initial = p.name.trim()[0].toUpperCase();
       return `
         <article class="card" data-id="${p.id}">
           <div class="card-head">
-            <div class="card-icon" style="background:${iconBg}">${initial}</div>
+            <div class="card-icon" style="background:${vis.bg};color:${vis.color}">${vis.svg}</div>
             <div class="card-title-wrap">
-              <h2 class="card-title" title="${p.name}">${p.name}</h2>
-              <div class="card-meta">
-                <span>★ ${formatStars(p.stars)}</span>
-                <span>·</span>
-                <span>${p.mechanism}</span>
-              </div>
+              <h3 class="card-title" title="${p.name}">${p.name}</h3>
+              <div class="card-repo">${p.repo}</div>
             </div>
-            ${badge ? `<span class="badge ${badgeClass(badge)}">${badge}</span>` : ""}
+            <span class="star-pill">★ ${formatStars(p.stars)}</span>
           </div>
           <p class="card-desc">${summary}</p>
-          <div class="card-tags">
-            ${(p.tags || []).slice(0, 3).map((tag) => `<span class="tag">${tag}</span>`).join("")}
-          </div>
-          <div class="card-actions">
-            <button class="btn btn-primary" type="button" data-copy="${p.id}">${t.copyCmd}</button>
-            <a class="btn" href="${p.url}" target="_blank" rel="noopener noreferrer" data-external="1">${t.viewRepo}</a>
+          <div class="card-foot">
+            <div class="card-badges">
+              ${badge ? `<span class="badge ${badgeClass(badge)}">${badge}</span>` : ""}
+              <span class="mech-tag">${p.mechanism}</span>
+            </div>
+            <div class="mini-actions">
+              <button class="mini-btn" type="button" data-copy="${p.id}">${t.copyShort}</button>
+              <a class="mini-btn" href="${p.url}" target="_blank" rel="noopener noreferrer" data-external="1">↗</a>
+            </div>
           </div>
         </article>
       `;
@@ -216,23 +263,22 @@ function openModal(id) {
   const p = state.data.plugins.find((item) => item.id === id);
   if (!p) return;
   const t = I18N[state.lang];
+  const vis = CATEGORY_VISUALS[p.category] || CATEGORY_VISUALS.workflow;
   const summary = state.lang === "zh" ? p.summary : p.summaryEn;
-  const body = document.getElementById("modalBody");
-  body.innerHTML = `
-    <h2 id="modalTitle" style="margin:0 0 6px">${p.name}</h2>
-    <div class="card-meta" style="margin-bottom:14px">
-      <span>★ ${p.stars.toLocaleString()}</span>
-      <span>·</span>
-      <span>${t.authorLabel}: ${p.author}</span>
-      <span>·</span>
-      <span>${t.mechanismLabel}: ${p.mechanism}</span>
+  document.getElementById("modalBody").innerHTML = `
+    <div class="card-head" style="margin-bottom:14px">
+      <div class="card-icon" style="background:${vis.bg};color:${vis.color}">${vis.svg}</div>
+      <div>
+        <h2 id="modalTitle" style="margin:0;font-size:18px">${p.name}</h2>
+        <div class="card-repo">★ ${p.stars.toLocaleString()} · ${t.authorLabel}: ${p.author} · ${t.mechanismLabel}: ${p.mechanism}</div>
+      </div>
     </div>
-    <p style="margin:0 0 14px;color:var(--text-muted)">${summary}</p>
-    <strong style="font-size:13px">${t.installTitle}</strong>
+    <p style="margin:0 0 14px;color:var(--text-muted);font-size:14px">${summary}</p>
+    <strong style="font-size:12.5px;color:var(--text-muted)">${t.installTitle}</strong>
     <pre class="code-box"><code>${p.install}</code></pre>
-    <div class="card-actions">
-      <button class="btn btn-primary" type="button" id="modalCopyBtn">${t.copyCmd}</button>
-      <a class="btn" href="${p.url}" target="_blank" rel="noopener noreferrer">${t.viewRepo} (${p.repo})</a>
+    <div class="modal-actions">
+      <button class="modal-btn modal-btn-primary" type="button" id="modalCopyBtn">${t.copyCmd}</button>
+      <a class="modal-btn" href="${p.url}" target="_blank" rel="noopener noreferrer">${t.viewRepo} ↗</a>
     </div>
   `;
   document.getElementById("modalCopyBtn").onclick = () => copyText(p.install);
@@ -242,6 +288,7 @@ function openModal(id) {
 function renderAll() {
   renderI18n();
   renderStats();
+  renderSpotlight();
   renderCategories();
   renderGrid();
 }
@@ -254,6 +301,15 @@ async function init() {
   document.getElementById("searchInput").addEventListener("input", (e) => {
     state.query = e.target.value;
     renderGrid();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+      e.preventDefault();
+      document.getElementById("searchInput").focus();
+    } else if (e.key === "Escape") {
+      document.getElementById("modalBackdrop").hidden = true;
+    }
   });
 
   document.getElementById("sortSelect").addEventListener("change", (e) => {
@@ -269,7 +325,7 @@ async function init() {
     renderGrid();
   });
 
-  document.getElementById("pluginGrid").addEventListener("click", (e) => {
+  const handleCardContainerClick = (e) => {
     const copyBtn = e.target.closest("[data-copy]");
     if (copyBtn) {
       e.stopPropagation();
@@ -278,9 +334,12 @@ async function init() {
       return;
     }
     if (e.target.closest("[data-external]")) return;
-    const card = e.target.closest(".card");
+    const card = e.target.closest("[data-id]");
     if (card) openModal(card.getAttribute("data-id"));
-  });
+  };
+
+  document.getElementById("pluginGrid").addEventListener("click", handleCardContainerClick);
+  document.getElementById("spotlightGrid").addEventListener("click", handleCardContainerClick);
 
   document.getElementById("langToggle").addEventListener("click", () => {
     state.lang = state.lang === "zh" ? "en" : "zh";
