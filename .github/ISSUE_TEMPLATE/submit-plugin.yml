@@ -1,0 +1,31 @@
+name: 投稿 Antigravity 插件 / Submit a Plugin
+description: 推荐好用的 Antigravity 桌面端或 CLI 插件（皮肤、汉化、ACP、上下文等）
+title: "[Plugin]: "
+labels: ["plugin-submission"]
+body:
+  - type: input
+    id: repo
+    attributes:
+      label: GitHub 仓库地址 / Repository URL
+      placeholder: https://github.com/owner/repo
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: 插件分类 / Category
+      options:
+        - 上下文 & 额度 (context)
+        - 皮肤 & 美化 (theme)
+        - 中文汉化 (i18n)
+        - ACP & 桥接 (acp)
+        - 侧边栏 & 效率 (workflow)
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: 一句话介绍 / Short Description
+      placeholder: 这个插件解决什么痛点？怎么安装？
+    validations:
+      required: true
